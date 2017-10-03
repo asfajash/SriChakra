@@ -20,7 +20,7 @@
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://127.2.232.130:3306/shrichakra" /> 
+		<property name="jdbcUrl" value="jdbc:mysql://127.2.232.130:3306/srichakra" /> 
 		<property name="user" value="adminckAS72c" />
 		<property name="password" value="suRNuT3tSSKQ" />
 <!-- 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/shrichakra" />
