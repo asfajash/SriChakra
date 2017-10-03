@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="com.ml.controller" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="*" />
+		<property name="suffix" value=".*" />
+	</bean>
+
+	<mvc:resources mapping="**" location="*" />
+	<mvc:annotation-driven />
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.2.232.130:3306/shrichakra" /> 
+		<property name="user" value="adminckAS72c" />
+		<property name="password" value="suRNuT3tSSKQ" />
+<!-- 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/shrichakra" />
+		<property name="user" value="root" />
+		<property name="password" value="m!$$!le7103" /> -->
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="maxStatements" value="50" />
+		<property name="idleConnectionTestPeriod" value="3000" />
+		<property name="loginTimeout" value="300" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.ml.model.UploadDetails</value>
+				<value>com.ml.model.TaskEntry</value>
+				<value>com.ml.model.ChequeEntry</value>
+				<value>com.ml.model.UserDetails</value>
+				<!-- <value>com.infosys.test.model.Employee</value> <value>com.infosys.test.model.Department</value> 
+					<value>com.infosys.test.model.SExchangeArea</value> <value>com.infosys.test.model.SExchangeAreaTmp</value> 
+					<value>com.infosys.test.model.Lctn</value> <value>com.infosys.test.model.MigratedWc</value> 
+					<value>com.infosys.test.model.NtasCtgLctnMap</value> <value>com.infosys.test.model.RegAAStruct</value> 
+					<value>com.infosys.test.model.TlbatGp</value> -->
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="dbService" class="com.ml.dbservices.DBServiceImpl"></bean>
+	<bean id="dbDao" class="com.ml.dbdao.DBDaoImpl"></bean>
+</beans>
